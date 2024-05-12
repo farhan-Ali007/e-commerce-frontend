@@ -6,18 +6,21 @@ import { Button } from 'antd'
 import { GoogleOutlined, MailOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom';
-import axios from 'axios'
+import { createOrUpdateUser } from '../../functions/auth'
 
-
-const createOrUpdateUser = async (authToken) => {
-    return await axios.post(`${process.env.REACT_APP_API}/create-or-update-user`, {}, {
-        headers: {
-            authToken,
-        }
-    })
-}
 
 const Login = ({ history }) => {
+
+
+    const roleBasedRedirect = (res) => {
+        if (res && res.data && res.data.role === "admin") {
+            // console.log("Issue--->",res.data.role)
+            history.push("/admin/dashboard")
+        } else {
+            history.push("/user/history")
+        }
+    }
+
 
     const [email, setEmail] = useState('farhanali7991225@gmail.com')
     const [password, setPassword] = useState('00000000')
@@ -40,6 +43,7 @@ const Login = ({ history }) => {
             const result = await auth.signInWithEmailAndPassword(email, password)
             const { user } = result
             const idTokenResult = await user.getIdTokenResult()
+            // console.log("Claims:", idTokenResult.claims);
 
             createOrUpdateUser(idTokenResult.token)
                 .then((res) => {
@@ -49,14 +53,14 @@ const Login = ({ history }) => {
                             name: res.data.name,
                             email: res.data.email,
                             token: idTokenResult.token,
-                            role:res.data.role,
-                            id:res.data._id
+                            role: res.data.role,
+                            id: res.data._id
                         },
                     })
+                    roleBasedRedirect()
                 })
-                .catch()
-
-            history.push('/')
+                .catch(error => console.log(error))
+            // history.push('/')
         } catch (error) {
             console.log(error)
             toast.error(error.message)
@@ -69,16 +73,27 @@ const Login = ({ history }) => {
             .then(async (result) => {
                 const { user } = result
                 const idTokenResult = await user.getIdTokenResult()
-                dispatch({
-                    type: 'LOGGED_IN_USER',
-                    payload: { email: user.email, token: idTokenResult.token },
-                })
-                history.push('/')
+                createOrUpdateUser(idTokenResult.token)
+                    .then((res) => {
+                        dispatch({
+                            type: 'LOGGED_IN_USER',
+                            payload: {
+                                name: res.data.name,
+                                email: res.data.email,
+                                token: idTokenResult.token,
+                                role: res.data.role,
+                                id: res.data._id
+                            },
+                        })
+                        roleBasedRedirect()
+                    })
+                    .catch(error => console.log(error))
+                // history.push('/')
 
             })
-            .catch((err) => {
-                console.log(err)
-                toast.error(err.message)
+            .catch((error) => {
+                console.error('Error fetching user data:', error);
+                toast.error(error.message)
             })
     }
 

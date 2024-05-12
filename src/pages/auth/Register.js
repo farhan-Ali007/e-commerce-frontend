@@ -17,19 +17,34 @@ const Register = ({ history }) => {
     }, [user, history])
 
     const handleSubmit = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
         const config = {
             url: process.env.REACT_APP_REGISTER_REDIRECT_URL,
             handleCodeInApp: true,
-        }
-        console.log('invoked', email)
+        };
+        console.log('invoked', email);
         await auth.sendSignInLinkToEmail(email, config)
-        toast.success(`Email is sent to ${email}. Click the link to complete your registration.`)
+            .then(() => {
+                // Log the user's token after the sign-in link is sent
+                const user = auth.currentUser;
+                if (user) {
+                    return user.getIdToken().then((token) => {
+                        console.log('Token:', token);
+                    });
+                } else {
+                    console.log('No user is signed in.');
+                }
+            })
+            .catch((error) => {
+                console.error('Error sending sign-in link:', error);
+            });
+        toast.success(`Email is sent to ${email}. Click the link to complete your registration.`);
         // save user email in local storage
-        window.localStorage.setItem('emailForRegistration', email)
+        window.localStorage.setItem('emailForRegistration', email);
         // clear state
-        setEmail('')
-    }
+        setEmail('');
+    };
+
 
     const registerForm = () => (
         <form onSubmit={handleSubmit}>
