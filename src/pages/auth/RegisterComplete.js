@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { auth } from '../../firebase'
+import { useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
+import { auth } from '../../firebase'
 import { createOrUpdateUser } from '../../functions/auth'
 
 
 const RegisterComplete = ({ history }) => {
 
-    const { user } = useSelector((state) => ({ ...state }))
+    // const { user } = useSelector((state) => ({ ...state }))
     let dispatch = useDispatch()
 
 
