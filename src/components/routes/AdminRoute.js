@@ -20,10 +20,12 @@ const AdminRoute = ({ children, ...rest }) => {
         }
     }, [user])
 
-    return ok ?
+    return ok ? (
         <Route {...rest} render={() => children} />
-        :
+    ) : (
         <LoadingToRedirect />
+    );
+
 }
 
 export default AdminRoute;
