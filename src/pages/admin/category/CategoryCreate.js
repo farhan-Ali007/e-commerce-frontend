@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { createCategory, removeCategory, getCategories } from '.././../../functions/category'
 import { Link } from 'react-router-dom';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
+
 import CategoryFrom from '../../../components/forms/CategoryForm';
 import LocalSearch from '../../../components/forms/LocalSearch';
 
