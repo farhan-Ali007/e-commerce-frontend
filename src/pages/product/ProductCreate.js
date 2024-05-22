@@ -27,6 +27,7 @@ const ProductCreate = () => {
 
     const [values, setValues] = useState(initialState)
     const [subOptions, setSubOptions] = useState([])
+    const [showSub, setShowSub] = useState(false)
 
 
     //redux
@@ -72,13 +73,14 @@ const ProductCreate = () => {
     const handleCategoryChange = (e) => {
         e.preventDefault()
         console.log("CLICKED CATEGORY =====> ", e.target.value)
-        setValues({ ...values, category: e.target.value });
+        setValues({ ...values, subs: [], category: e.target.value });
 
         getCategorySubs(e.target.value)
-        .then(res=>{
-            console.log("Response ====>",res)
-            setSubOptions(res.data)
-        })
+            .then(res => {
+                console.log("Response ====>", res)
+                setSubOptions(res.data)
+            })
+        setShowSub(true)
     }
 
     return (
@@ -88,12 +90,15 @@ const ProductCreate = () => {
                 <div className='col-md-10'>
                     <h4>Product create</h4>
                     <hr />
-                    {/* {JSON.stringify(values.categories)} */}
+                    {JSON.stringify(values.subs)}
                     <ProductCreateFrom
                         handleSubmit={handleSubmit}
                         handleChange={handleChange}
                         values={values}
-                        handleCategoryChange={handleCategoryChange} />
+                        setValues={setValues}
+                        handleCategoryChange={handleCategoryChange}
+                        subOptions={subOptions}
+                        showSub={showSub} />
                 </div>
             </div>
 
