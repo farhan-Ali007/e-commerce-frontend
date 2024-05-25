@@ -3,31 +3,34 @@ import AdminNav from '../../components/nav/AdminNav'
 import { createProduct } from '../../functions/product'
 import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
+import { LoadingOutlined } from '@ant-design/icons'
 import ProductCreateFrom from '../../components/forms/ProductCreateFrom'
 import { getCategories, getCategorySubs } from '../../functions/category'
+import FileUpload from '../../components/forms/FileUpload'
 
 const ProductCreate = () => {
 
     const initialState = {
-        title: 'Macbook',
-        description: 'This is an Apple Product',
-        price: '999999',
+        title: '',
+        description: '',
+        price: '',
         categories: '',
         category: '',
         subs: [],
-        shipping: 'Yes',
-        quantity: '50',
+        shipping: '',
+        quantity: '',
         images: [],
         colors: ["Black", "Silver", "Brown", "Blue", "Orange", "Red", "White", "Purple", "Pink", "Yellow"],
         brands: ["Apple", "Samsung", "Lenovo", "HP", "ASUS", "Microsoft"],
-        color: 'Silver',
-        brand: 'Apple'
+        color: '',
+        brand: ''
     }
 
 
     const [values, setValues] = useState(initialState)
     const [subOptions, setSubOptions] = useState([])
     const [showSub, setShowSub] = useState(false)
+    const [loading, setLoading] = useState(false)
 
 
     //redux
@@ -88,9 +91,18 @@ const ProductCreate = () => {
             <div className='row'>
                 <div className='col-md-2'><AdminNav /></div>
                 <div className='col-md-10'>
-                    <h4>Product create</h4>
+                    {loading ? <LoadingOutlined className='text-danger h1' /> : <h4>Product create</h4>}
                     <hr />
-                    {JSON.stringify(values.subs)}
+                    {JSON.stringify(values.images)}
+
+                    <div className='p-3'>
+                        <FileUpload
+                            values={values}
+                            setValues={setValues}
+                            setLoading={setLoading}
+                        />
+                    </div>
+
                     <ProductCreateFrom
                         handleSubmit={handleSubmit}
                         handleChange={handleChange}
