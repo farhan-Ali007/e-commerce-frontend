@@ -26,7 +26,7 @@ const FileUpload = ({ values, setValues, setLoading }) => {
                         }
                     })
                         .then((res) => {
-                            console.log("Image Upload Response data ====>", res)
+                            // console.log("Image Upload Response data ====>", res)
                             setLoading(false)
                             allUploadedFiles.push(res.data);
                             setValues({ ...values, images: allUploadedFiles })
@@ -42,10 +42,9 @@ const FileUpload = ({ values, setValues, setLoading }) => {
         //set the url in images[]  in the parent component --> ProductCreate
     }
 
-
     const hanleImageRemove = (public_id) => {
         setLoading(true)
-        console.log("Remove image id ===>", public_id)
+        // console.log("Remove image id ===>", public_id)
         axios.post(`${process.env.REACT_APP_API}/removeimages`, { public_id }, {
             headers: {
                 authtoken: user ? user.token : ''
@@ -78,7 +77,7 @@ const FileUpload = ({ values, setValues, setLoading }) => {
                             style={{ cursor: "pointer" }}>
                             <Avatar
                                 src={image.url}
-                                size={60}
+                                size={100}
                                 shape="square"
                                 className='ml-3' />
                         </Badge>
@@ -86,7 +85,7 @@ const FileUpload = ({ values, setValues, setLoading }) => {
                 }
             </div>
             <div className='row'>
-                <label className='btn btn-primary'>
+                <label className='btn btn-primary btn-raised mt-3'>
                     Choose File
                     <input
                         type="file"
