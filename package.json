@@ -19,6 +19,7 @@
     "react-toastify": "^10.0.4",
     "redux": "^5.0.1",
     "redux-devtools-extension": "^2.13.9",
+    "typewriter-effect": "^2.13.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

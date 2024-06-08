@@ -26,7 +26,7 @@ const AdminProductCard = ({ product, handleRemove }) => {
                     onClick={() => handleRemove(slug)} />]}>
             <Meta
                 title={title}
-                description={`${description && description.substring(0, 40)}.... `} />
+                description={`${description && description.substring(0, 40)}... `} />
         </Card>
     )
 }
