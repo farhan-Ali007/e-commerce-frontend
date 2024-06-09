@@ -32,7 +32,7 @@ const Header = () => {
     return (
         <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
             <Item key="home" icon={<AppstoreOutlined />}>
-                <Link to="/">Home</Link>
+                <Link to="/" style={{ textDecoration: "none" }}>Home</Link>
             </Item>
 
             {!user && (

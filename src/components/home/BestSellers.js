@@ -9,21 +9,17 @@ const BestSellers = () => {
     const [loading, setLoading] = useState(false);
     const [productsCount, setProductsCount] = useState(0);
     const [page, setPage] = useState(1);
-
-    const loadAllProducts = (currentPage) => {
+    const loadAllProducts = () => {
         setLoading(true);
-        getProducts("sold", "desc", currentPage).then((res) => {
-            // console.log('API response:', res.data);
-            setProducts(res.data);
-            setLoading(false);
-        }).catch((err) => {
-            console.error('Error fetching products:', err);
-            setLoading(false);
+        // sort, order, limit
+        getProducts("sold", "desc", page).then((res) => {
+          setProducts(res.data);
+          setLoading(false);
         });
-    };
-
+      };
+    
     useEffect(() => {
-        loadAllProducts(page);
+        loadAllProducts();
     }, [page]);
 
     useEffect(() => {
@@ -41,7 +37,7 @@ const BestSellers = () => {
                     <div className='row'>
                         {products.map((product) => (
                             <div key={product._id} className='col-md-4'>
-                                <ProductCard product={product} useDefaultImage={true} />
+                                <ProductCard product={product} />
                             </div>
                         ))}
                     </div>

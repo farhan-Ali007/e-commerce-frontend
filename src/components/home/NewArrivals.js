@@ -11,22 +11,18 @@ const NewArrivals = () => {
     const [page, setPage] = useState(1)
     const [productsCount, setProductsCount] = useState(0)
 
-    const loadAllProducts = (currentPage) => {
-        setLoading(true)
-        // sort, order, limit, and page
-        getProducts('createdAt', 'desc', currentPage)
-            .then((res) => {
-                setProducts(res.data)
-                setLoading(false)
-            })
-            .catch((err) => {
-                console.log(err)
-                setLoading(false)
-            })
-    }
+    const loadAllProducts = () => {
+        setLoading(true);
+        // sort, order, limit
+        getProducts("createdAt", "desc", page).then((res) => {
+          setProducts(res.data);
+          setLoading(false);
+        });
+      };
+    
 
     useEffect(() => {
-        loadAllProducts(page)
+        loadAllProducts()
     }, [page])
 
     useEffect(() => {
@@ -47,7 +43,7 @@ const NewArrivals = () => {
                             {
                                 products.map((product) => (
                                     <div key={product._id} className='col-md-4'>
-                                        <ProductCard product={product} useDefaultImage={false} />
+                                        <ProductCard product={product}  />
                                     </div>
                                 ))
                             }
