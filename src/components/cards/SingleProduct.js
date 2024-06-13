@@ -6,17 +6,20 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Link } from 'react-router-dom';
 import Laptop from '../../images/laptop.png';
 import ProductListItem from './ProductListItem';
+import StarRatings from 'react-star-ratings'
+import RatingModal from '../modal/RatingModal';
 const { TabPane } = Tabs
 
 
-const SingleProduct = ({ product }) => {
+//This is the children component of Product page
+const SingleProduct = ({ product, onStarClick,star }) => {
 
   if (!product) {
     return <div>Loading...</div>; // Display a loading message or spinner
   }
 
 
-  const { title, images, description } = product;
+  const { title, images, description, _id } = product;
 
   return (
     <>
@@ -45,6 +48,9 @@ const SingleProduct = ({ product }) => {
       </div>
       <div className='col-md-5'>
         <h1 className='bg-info p-3 mb-3'>{title} </h1>
+
+
+
         <Card
           actions={[
             <>
@@ -56,7 +62,17 @@ const SingleProduct = ({ product }) => {
               <HeartOutlined className='text-info' />
               <br />
               Add to whishlist
-            </Link>
+            </Link>,
+            <RatingModal>
+              <StarRatings
+                name={_id}
+                starRatedColor="red"
+                numberOfStars={5}
+                changeRating={onStarClick}
+                rating={star}
+                isSelectable={true}
+              />
+            </RatingModal>
           ]}
         >
           <ProductListItem product={product} />

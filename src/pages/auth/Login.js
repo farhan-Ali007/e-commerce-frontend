@@ -12,14 +12,6 @@ import { createOrUpdateUser } from '../../functions/auth'
 const Login = ({ history }) => {
 
 
-    const roleBasedRedirect = (res) => {
-        if (res && res.data && res.data.role === "admin") {
-            history.push("/admin/dashboard");
-        } else {
-            history.push("/user/history");
-        }
-
-    }
 
 
     const [email, setEmail] = useState('farhanali7991225@gmail.com')
@@ -28,13 +20,35 @@ const Login = ({ history }) => {
 
     const { user } = useSelector((state) => ({ ...state }))
 
-    useEffect(() => {
-        if (user && user.token) {
-            history.push("/")
-        }
-    }, [user, history])
+    let dispatch = useDispatch();
 
-    let dispatch = useDispatch()
+    useEffect(() => {
+        let intended = history.location.state;
+
+        if (intended) {
+            return;
+        } else {
+            if (user && user.token) {
+                history.push("/")
+            };
+        }
+
+    }, [user, history]);
+
+    const roleBasedRedirect = (res) => {
+        let intended = history.location.state
+        if (intended) {
+            history.push(intended.from);
+        } else {
+            if (res.data.role === "admin") {
+                history.push("/admin/dashboard");
+            } else {
+                history.push("/user/history");
+            }
+        }
+    };
+
+
 
     const handleSubmit = async (e) => {
         e.preventDefault()
