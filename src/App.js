@@ -20,6 +20,7 @@ import CategoryCreate from './pages/admin/category/CategoryCreate'
 import CategoryUpdate from './pages/admin/category/CategoryUpdate';
 import SubCreate from './pages/admin/sub/SubCreate';
 import SubUpdate from './pages/admin/sub/SubUpdate';
+import CategoryHome from './pages/category/CategoryHome';
 
 
 import { auth } from './firebase';
@@ -29,6 +30,7 @@ import ProductCreate from './pages/admin/product/ProductCreate';
 import AllProducts from './pages/admin/product/AllProducts';
 import ProductUpdate from './pages/admin/product/ProductUpdate'
 import Product from './pages/Product';
+import SubHome from './pages/sub/SubHome';
 
 
 const App = () => {
@@ -81,6 +83,9 @@ const App = () => {
         <AdminRoute exact path='/admin/products' component={AllProducts} />
         <AdminRoute exact path='/admin/product/:slug' component={ProductUpdate} />
         <Route exact path='/product/:slug' component={Product} />
+        <Route exact path='/category/:slug' component={CategoryHome} />
+        <Route exact path='/sub/:slug' component={SubHome} />
+
       </Switch>
     </>
   );

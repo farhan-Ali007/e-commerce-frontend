@@ -51,7 +51,7 @@ const ProductCreate = () => {
         createProduct(values, user.token)
             .then(res => {
                 console.log(res)
-                window.alert(`${res.data.title} is created`)
+                window.alert(`Create ${res.data.title} ?`)
                 toast.success("Product created successfully!")
                 window.location.reload()
             })

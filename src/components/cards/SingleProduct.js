@@ -4,22 +4,24 @@ import React from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Link } from 'react-router-dom';
+import StarRating from 'react-star-ratings';
 import Laptop from '../../images/laptop.png';
-import ProductListItem from './ProductListItem';
-import StarRatings from 'react-star-ratings'
 import RatingModal from '../modal/RatingModal';
-const { TabPane } = Tabs
+import ProductListItem from './ProductListItem';
+import { showAverage } from '../../functions/rating'
+
+const { TabPane } = Tabs;
+
+const SingleProduct = ({ product, onStarClick, star }) => {
 
 
-//This is the children component of Product page
-const SingleProduct = ({ product, onStarClick,star }) => {
 
   if (!product) {
     return <div>Loading...</div>; // Display a loading message or spinner
   }
 
-
   const { title, images, description, _id } = product;
+
 
   return (
     <>
@@ -27,28 +29,33 @@ const SingleProduct = ({ product, onStarClick,star }) => {
         {
           images && images.length ?
             <Carousel showArrows={true} autoPlay infiniteLoop>
-              {images && images.map((i) => <img alt="" src={i.url} key={i.public_id} />)}
-            </Carousel> :
+              {images.map((i) => (
+                <img alt="" src={i.url} key={i.public_id} />
+              ))}
+            </Carousel>
+            :
             <Card>
-              <img alt=''
-                src={Laptop}
-                className='mb-3 card-image' />
+              <img alt='' src={Laptop} className='mb-3 card-image' />
             </Card>
         }
-
 
         <Tabs type="card">
           <TabPane tab="Description" key="1">
             {description && description}
           </TabPane>
           <TabPane tab="More" key="2">
-            Call use on 03xx xxxxx00 to learn more about this product.
+            Call us on 03xx xxxxx00 to learn more about this product.
           </TabPane>
         </Tabs>
       </div>
-      <div className='col-md-5'>
-        <h1 className='bg-info p-3 mb-3'>{title} </h1>
 
+      <div className='col-md-5'>
+        <h1 className='bg-info p-3 mb-3'>{title}</h1>
+
+
+        {product && product.ratings && product.ratings.length > 0
+          ? showAverage(product)
+          : <div className='text-center pt-1 pb-3'>No rating yet</div>}
 
 
         <Card
@@ -61,27 +68,26 @@ const SingleProduct = ({ product, onStarClick,star }) => {
             <Link to="/" style={{ textDecoration: "none" }}>
               <HeartOutlined className='text-info' />
               <br />
-              Add to whishlist
+              Add to Wishlist
             </Link>,
             <RatingModal>
-              <StarRatings
+              <StarRating
                 name={_id}
-                starRatedColor="red"
                 numberOfStars={5}
-                changeRating={onStarClick}
                 rating={star}
+                changeRating={onStarClick}
                 isSelectable={true}
+                starRatedColor="red"
               />
-            </RatingModal>
+            </RatingModal>,
           ]}
         >
           <ProductListItem product={product} />
-
         </Card>
 
       </div>
     </>
-  )
-}
+  );
+};
 
-export default SingleProduct
+export default SingleProduct;

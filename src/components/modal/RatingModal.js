@@ -1,57 +1,48 @@
-import React, { useState } from 'react'
-import { toast } from 'react-toastify'
-import { Modal } from 'antd'
-import { useSelector } from 'react-redux'
-import { StarOutlined } from '@ant-design/icons'
-import { useHistory, useParams } from 'react-router-dom'
+import { StarOutlined } from "@ant-design/icons";
+import { Modal } from "antd";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { useHistory, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const RatingModal = ({ children }) => {
+  const { user } = useSelector((state) => ({ ...state }));
+  const [modalVisible, setModalVisible] = useState(false);
 
+  let history = useHistory();
+  let { slug } = useParams();
 
-
-    const { user } = useSelector((state) => ({ ...state }))
-
-    const [modalVisible, setModalVisible] = useState(false)
-
-    let history = useHistory();
-    let { slug } = useParams();
-
-
-    // console.log("User:", user);
-    // console.log("Slug:", slug)
-
-    const handleModal = () => {
-        if (user && user.token) { setModalVisible(true) }
-        else {
-            // Redirect the user to the login page and save the intended page slug
-            history.push({
-                pathname: '/login',
-                state: { from: `/product/${slug}` },
-            })
-        }
+  const handleModal = () => {
+    if (user && user.token) {
+      setModalVisible(true);
+    } else {
+      history.push({
+        pathname: "/login",
+        state: { from: `/product/${slug}` },
+      });
     }
+  };
 
-    return (
+  return (
+    <>
+      <div onClick={handleModal}>
+        <StarOutlined className="text-danger" /> <br />{" "}
+        {user ? "Leave rating" : "Login to leave rating"}
+      </div>
+      <Modal
+        title="Leave your rating"
+        centered
+        open={modalVisible}
+        onOk={() => {
+          setModalVisible(false);
+          toast.success("Thanks for your review. It will apper soon");
+        }}
+        onCancel={() => setModalVisible(false)}
+      >
+        {children}
+      </Modal>
+    </>
+  );
+};
 
-        <>
-            <div onClick={handleModal}>
-                <StarOutlined className='text-danger' /><br />{""}
-                {user ? "Leave rating " : "Login to leave rating"}
-            </div>
-            <Modal
-                title="Leave your rating"
-                centered
-                open={modalVisible}
-                onOk={() => {
-                    setModalVisible(false)
-                    toast.success("Thanks for your review. It will appear soon")
-                }}
-                onCancel={() => { setModalVisible(false) }}
-            >
-                {children}
-            </Modal>
-        </>
-    )
-}
-
-export default RatingModal
+export default RatingModal;
