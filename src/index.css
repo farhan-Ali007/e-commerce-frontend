@@ -3,3 +3,19 @@
     height: 400px;
     object-fit: cover;
 }
+
+
+.float-right {
+    float: right;
+  }
+  
+  .clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+  
+  /* Optional: additional styling for padding */
+  .p-1 {
+    padding: 0.5rem;
+  }
