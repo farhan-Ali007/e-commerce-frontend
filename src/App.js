@@ -1,35 +1,35 @@
 import React, { useEffect } from 'react';
-import { Switch, Route } from 'react-router-dom'
-import { ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+import { Route, Switch } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
-import Home from './pages/Home';
-import Login from './pages/auth/Login';
-import Register from './pages/auth/Register';
 import Header from './components/nav/Header';
-import CompleteRegisteration from './pages/auth/RegisterComplete'
-import ForgotPassword from './pages/auth/ForgotPassword';
-import UserRoute from './components/routes/UserRoute'
-import History from './pages/user/History';
-import Password from './pages/user/Password'
-import Wishlist from './pages/user/Wishlist'
-import AdminRoute from './components/routes/AdminRoute'
+import AdminRoute from './components/routes/AdminRoute';
+import UserRoute from './components/routes/UserRoute';
 import AdminDashboard from './pages/admin/AdminDashboard';
-import CategoryCreate from './pages/admin/category/CategoryCreate'
+import CategoryCreate from './pages/admin/category/CategoryCreate';
 import CategoryUpdate from './pages/admin/category/CategoryUpdate';
 import SubCreate from './pages/admin/sub/SubCreate';
 import SubUpdate from './pages/admin/sub/SubUpdate';
+import ForgotPassword from './pages/auth/ForgotPassword';
+import Login from './pages/auth/Login';
+import Register from './pages/auth/Register';
+import CompleteRegisteration from './pages/auth/RegisterComplete';
 import CategoryHome from './pages/category/CategoryHome';
+import Home from './pages/Home';
 import Shop from './pages/Shop';
+import History from './pages/user/History';
+import Password from './pages/user/Password';
+import Wishlist from './pages/user/Wishlist';
 
 
-import { auth } from './firebase';
 import { useDispatch } from 'react-redux';
-import { currentUser } from './functions/auth'
-import ProductCreate from './pages/admin/product/ProductCreate';
+import { auth } from './firebase';
+import { currentUser } from './functions/auth';
 import AllProducts from './pages/admin/product/AllProducts';
-import ProductUpdate from './pages/admin/product/ProductUpdate'
+import ProductCreate from './pages/admin/product/ProductCreate';
+import ProductUpdate from './pages/admin/product/ProductUpdate';
 import Product from './pages/Product';
 import SubHome from './pages/sub/SubHome';
 
