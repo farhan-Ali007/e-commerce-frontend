@@ -66,7 +66,7 @@ const Header = () => {
                     }
                     {
                         user && (
-                            user.role === 'admin' && <Item key="setting:1"><Link to="/admin/dashboard">Dashboard</Link></Item>
+                            user.role === 'admin' && <Item key="setting:2"><Link to="/admin/dashboard">Dashboard</Link></Item>
                         )
                     }
 
