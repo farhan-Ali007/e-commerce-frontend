@@ -1,42 +1,38 @@
-import React, { useEffect, useState } from 'react'
-import { auth, googleAuthProvider } from '../../firebase'
-import { toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-import { Button } from 'antd'
-import { GoogleOutlined, MailOutlined } from '@ant-design/icons'
-import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom';
-import { createOrUpdateUser } from '../../functions/auth'
+import React, { useEffect, useState } from 'react';
+import { auth, googleAuthProvider } from '../../firebase';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Button } from 'antd';
+import { GoogleOutlined, MailOutlined } from '@ant-design/icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useHistory, useLocation } from 'react-router-dom';
+import { createOrUpdateUser } from '../../functions/auth';
 
-
-const Login = ({ history }) => {
-
-
-
-
-    const [email, setEmail] = useState('farhanali7991225@gmail.com')
-    const [password, setPassword] = useState('00000000')
+const Login = () => {
+    const [email, setEmail] = useState('farhanali7991225@gmail.com');
+    const [password, setPassword] = useState('00000000');
     const [loading, setLoading] = useState(false);
 
-    const { user } = useSelector((state) => ({ ...state }))
-
-    let dispatch = useDispatch();
+    const { user } = useSelector((state) => ({ ...state }));
+    const dispatch = useDispatch();
+    const history = useHistory();
+    const location = useLocation();
 
     useEffect(() => {
-        let intended = history.location.state;
-
+        let intended = location.state;
+        // console.log('Intended:', intended); 
         if (intended) {
             return;
         } else {
             if (user && user.token) {
-                history.push("/")
-            };
+                history.push("/");
+            }
         }
-
-    }, [user, history]);
+    }, [user, history, location.state]);
 
     const roleBasedRedirect = (res) => {
-        let intended = history.location.state
+        let intended = location.state;
+        // console.log('Role Based Redirect Intended:', intended); 
         if (intended) {
             history.push(intended.from);
         } else {
@@ -48,16 +44,13 @@ const Login = ({ history }) => {
         }
     };
 
-
-
     const handleSubmit = async (e) => {
-        e.preventDefault()
-        setLoading(true)
+        e.preventDefault();
+        setLoading(true);
         try {
-            const result = await auth.signInWithEmailAndPassword(email, password)
-            const { user } = result
-            const idTokenResult = await user.getIdTokenResult()
-            // console.log("Claims:", idTokenResult.claims);
+            const result = await auth.signInWithEmailAndPassword(email, password);
+            const { user } = result;
+            const idTokenResult = await user.getIdTokenResult();
 
             createOrUpdateUser(idTokenResult.token)
                 .then((res) => {
@@ -70,23 +63,22 @@ const Login = ({ history }) => {
                             role: res.data.role,
                             id: res.data._id
                         },
-                    })
-                    roleBasedRedirect(res)
+                    });
+                    roleBasedRedirect(res);
                 })
-                .catch(error => console.log(error))
-            // history.push('/')
+                .catch(error => console.log(error));
         } catch (error) {
-            console.log(error)
-            toast.error(error.message)
-            setLoading(false)
+            console.log(error);
+            toast.error(error.message);
+            setLoading(false);
         }
-    }
+    };
 
     const googleLogin = () => {
         auth.signInWithPopup(googleAuthProvider)
             .then(async (result) => {
-                const { user } = result
-                const idTokenResult = await user.getIdTokenResult()
+                const { user } = result;
+                const idTokenResult = await user.getIdTokenResult();
                 createOrUpdateUser(idTokenResult.token)
                     .then((res) => {
                         dispatch({
@@ -98,18 +90,16 @@ const Login = ({ history }) => {
                                 role: res.data.role,
                                 id: res.data._id
                             },
-                        })
-                        roleBasedRedirect(res)
+                        });
+                        roleBasedRedirect(res);
                     })
-                    .catch(error => console.log(error))
-                // history.push('/')
-
+                    .catch(error => console.log(error));
             })
             .catch((error) => {
                 console.error('Error fetching user data:', error);
-                toast.error(error.message)
-            })
-    }
+                toast.error(error.message);
+            });
+    };
 
     const registerForm = () => (
         <form onSubmit={handleSubmit}>
@@ -146,16 +136,13 @@ const Login = ({ history }) => {
                 Login with Email/Password
             </Button>
         </form>
-    )
+    );
 
     return (
         <div className='container p-5'>
             <div className='row'>
                 <div className='col-md-6 offset-md-3'>
-                    {!loading ?
-                        <h4>Login</h4> :
-                        <h4 className='text-danger'>Loading...</h4>
-                    }
+                    {!loading ? <h4>Login</h4> : <h4 className='text-danger'>Loading...</h4>}
                     {registerForm()}
                     <Button
                         type='dashed'
@@ -173,8 +160,7 @@ const Login = ({ history }) => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Login
-
+export default Login;

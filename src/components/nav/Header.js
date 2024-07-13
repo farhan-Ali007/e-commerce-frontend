@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
 import {
     AppstoreOutlined,
+    LogoutOutlined,
     SettingOutlined,
-    UserOutlined,
+    ShoppingCartOutlined,
+    ShoppingOutlined,
     UserAddOutlined,
-    ShoppingOutlined
+    UserOutlined
 } from '@ant-design/icons';
-import { Menu } from 'antd';
-import { Link } from 'react-router-dom';
+import { Menu, Badge } from 'antd';
 import firebase from "firebase/compat/app";
-import { LogoutOutlined } from '@ant-design/icons';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Seacrh from '../forms/Seacrh';
 
 const { SubMenu, Item } = Menu
@@ -20,7 +20,7 @@ const Header = () => {
     const [current, setCurrent] = useState('home');
     let dispatch = useDispatch();
     let history = useHistory()
-    let { user } = useSelector((state) => ({ ...state }))
+    let { user, cart } = useSelector((state) => ({ ...state }))
 
     const handleClick = (e) => {
         // console.log('click ', e);
@@ -43,6 +43,14 @@ const Header = () => {
             </Item>
             <Item key="shop" icon={<ShoppingOutlined />}>
                 <Link to="/shop" style={{ textDecoration: "none" }}>Shop</Link>
+            </Item>
+
+            <Item key="cart" icon={<ShoppingCartOutlined />}>
+                <Link to="/cart" style={{ textDecoration: "none" }}>
+                    <Badge count={cart.length} size="small" offset={[9, 0]}>
+                        Cart
+                    </Badge>
+                </Link>
             </Item>
 
             {!user && (

@@ -19,6 +19,7 @@ import CompleteRegisteration from './pages/auth/RegisterComplete';
 import CategoryHome from './pages/category/CategoryHome';
 import Home from './pages/Home';
 import Shop from './pages/Shop';
+import Cart from './pages/Cart';
 import History from './pages/user/History';
 import Password from './pages/user/Password';
 import Wishlist from './pages/user/Wishlist';
@@ -32,6 +33,7 @@ import ProductCreate from './pages/admin/product/ProductCreate';
 import ProductUpdate from './pages/admin/product/ProductUpdate';
 import Product from './pages/Product';
 import SubHome from './pages/sub/SubHome';
+
 
 
 const App = () => {
@@ -87,6 +89,7 @@ const App = () => {
         <Route exact path='/category/:slug' component={CategoryHome} />
         <Route exact path='/sub/:slug' component={SubHome} />
         <Route exact path='/shop' component={Shop} />
+        <Route exact path='/cart' component={Cart} />
 
       </Switch>
     </>
