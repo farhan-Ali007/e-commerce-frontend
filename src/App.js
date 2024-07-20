@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Header from './components/nav/Header';
 import AdminRoute from './components/routes/AdminRoute';
 import UserRoute from './components/routes/UserRoute';
+import SideDrawer from './components/drawer/SideDrawer';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import CategoryCreate from './pages/admin/category/CategoryCreate';
 import CategoryUpdate from './pages/admin/category/CategoryUpdate';
@@ -20,6 +21,7 @@ import CategoryHome from './pages/category/CategoryHome';
 import Home from './pages/Home';
 import Shop from './pages/Shop';
 import Cart from './pages/Cart';
+import Checkout from './pages/Checkout';
 import History from './pages/user/History';
 import Password from './pages/user/Password';
 import Wishlist from './pages/user/Wishlist';
@@ -44,7 +46,7 @@ const App = () => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
         const idTokenResult = await user.getIdTokenResult();
-        console.log('user', user);
+        // console.log('user', user);
         currentUser(idTokenResult.token)
           .then((res) => {
             dispatch({
@@ -67,6 +69,7 @@ const App = () => {
   return (
     <>
       <Header />
+      <SideDrawer />
       <ToastContainer />
       <Switch>
         <Route exact path='/' component={Home} />
@@ -90,6 +93,7 @@ const App = () => {
         <Route exact path='/sub/:slug' component={SubHome} />
         <Route exact path='/shop' component={Shop} />
         <Route exact path='/cart' component={Cart} />
+        <Route exact path='/checkout' component={Checkout} />
 
       </Switch>
     </>

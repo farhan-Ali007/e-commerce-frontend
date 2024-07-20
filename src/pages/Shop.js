@@ -80,6 +80,10 @@ const Shop = () => {
         const delayed = setTimeout(() => {
             fetchProductsByFilter({ query: text })
         }, 300)
+        if (!text) {
+            loadAllProducts()
+        }
+
         return () => clearTimeout(delayed)
     }, [text])
 

@@ -30,7 +30,7 @@ const SingleProduct = ({ product, onStarClick, star }) => {
     //create cart array
     let cart = [];
     let unique = []; // Declare unique outside the if block
-  
+
     if (typeof window !== "undefined") {
       //if cart is in Local Storage GET it
       if (localStorage.getItem('cart')) {
@@ -41,22 +41,28 @@ const SingleProduct = ({ product, onStarClick, star }) => {
         ...product,
         count: 1
       });
-  
+
       //remove duplicate
       unique = _.uniqWith(cart, _.isEqual);
       //save to local storage
       console.log("Unique=====>", unique);
-  
+
       localStorage.setItem('cart', JSON.stringify(unique));
     }
-  
+
     //show tooltip
     setTooltip('Added');
-  
+
     //Add to redux state
     dispatch({
       type: "ADD_TO_CART",
       payload: unique,
+    });
+
+    //show cart items in side drawer
+    dispatch({
+      type: "SET_VISIBLE",
+      payload: true,
     });
   };
   return (
