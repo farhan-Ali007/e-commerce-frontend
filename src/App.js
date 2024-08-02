@@ -13,6 +13,7 @@ import CategoryCreate from './pages/admin/category/CategoryCreate';
 import CategoryUpdate from './pages/admin/category/CategoryUpdate';
 import SubCreate from './pages/admin/sub/SubCreate';
 import SubUpdate from './pages/admin/sub/SubUpdate';
+import CreateCouponPage from './pages/admin/coupons/CreateCouponPage';
 import ForgotPassword from './pages/auth/ForgotPassword';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
@@ -21,6 +22,7 @@ import CategoryHome from './pages/category/CategoryHome';
 import Home from './pages/Home';
 import Shop from './pages/Shop';
 import Cart from './pages/Cart';
+import Payment from './pages/Payment';
 import Checkout from './pages/Checkout';
 import History from './pages/user/History';
 import Password from './pages/user/Password';
@@ -80,6 +82,7 @@ const App = () => {
         <UserRoute exact path='/user/history' component={History} />
         <UserRoute exact path='/user/password' component={Password} />
         <UserRoute exact path='/user/wishlist' component={Wishlist} />
+        <UserRoute exact path='/payment' component={Payment} />
         <AdminRoute exact path='/admin/dashboard' component={AdminDashboard} />
         <AdminRoute exact path='/admin/category' component={CategoryCreate} />
         <AdminRoute exact path='/admin/category/:slug' component={CategoryUpdate} />
@@ -88,6 +91,7 @@ const App = () => {
         <AdminRoute exact path='/admin/product' component={ProductCreate} />
         <AdminRoute exact path='/admin/products' component={AllProducts} />
         <AdminRoute exact path='/admin/product/:slug' component={ProductUpdate} />
+        <AdminRoute exact path='/admin/coupon' component={CreateCouponPage} />
         <Route exact path='/product/:slug' component={Product} />
         <Route exact path='/category/:slug' component={CategoryHome} />
         <Route exact path='/sub/:slug' component={SubHome} />

@@ -13,7 +13,7 @@ const AdminRoute = ({ children, ...rest }) => {
         if (user && user.token) {
             currentAdmin(user.token)
                 .then(res => {
-                    console.log("cuurent admin res", res)
+                    // console.log("cuurent admin res", res)
                     setOk(true)
                 })
                 .catch((err) => { console.log("Admin route error", err) })
