@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js'
 import { useSelector, useDispatch } from 'react-redux'
 import { createPaymentIntent } from '../functions/stripe'
+import { createOrder, emptyUserCart } from '../functions/user'
 import { Link } from 'react-router-dom'
 import { Card } from 'antd'
 import { DollarOutlined, CheckOutlined } from '@ant-design/icons'
@@ -27,7 +28,7 @@ const StripeCheckout = ({ history }) => {
     useEffect(() => {
         createPaymentIntent(user.token, coupon)
             .then((res) => {
-                console.log("Create payment intent--->", res.data)
+                // console.log("Create payment intent--->", res.data)
                 setClientSecret(res.data.clientSecret)
                 //additional response received on successdull payment from backend
                 setCartTotal(res.data.cartTotal)
@@ -57,8 +58,32 @@ const StripeCheckout = ({ history }) => {
         } else {
             //here you get result after successful payment
             //create ordre and save in the database for admin to process
+
+            createOrder(payload, user.token)
+                .then((res) => {
+                    if (res.data.ok) {
+                        //empty cart from local storage
+
+                        if (typeof window !== undefined) localStorage.removeItem("cart")
+
+                        //empty cart from redux store
+
+                        dispatch({
+                            type: "ADD_TO_CART",
+                            payload: []
+                        });
+                        //reset coupon to false
+                        dispatch({
+                            type: "COUPON_APPLIED",
+                            payload: false,
+                        });
+                        //empty cart from database
+                        emptyUserCart(user.token);
+                    }
+                })
+
             //empty user cart from redux and loclastorage
-            console.log(JSON.stringify(payload, null, 4))
+            // console.log(JSON.stringify(payload, null, 4))
             setError(null)
             setProcessing(false)
             setSucceeded(true)
@@ -97,7 +122,7 @@ const StripeCheckout = ({ history }) => {
                 !succeeded && <div >
                     {
                         coupon && totalAfterDiscount !== undefined ? (
-                            <p className='alert alert-success'>{`Total after discount: ${totalAfterDiscount}`}</p>
+                            <p className='alert alert-success'>{`Total after discount: $${totalAfterDiscount}`}</p>
                         ) : (
                             <p className='alert alert-danger'>No coupon applied!</p>)
                     }

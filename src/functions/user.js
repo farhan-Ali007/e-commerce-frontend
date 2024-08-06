@@ -1,7 +1,5 @@
 import Axios from "axios";
 
-
-
 export const userCart = async (cart, authToken) => {
     return await Axios.post(`${process.env.REACT_APP_API}/user/cart`, { cart }, {
         headers: {
@@ -18,7 +16,6 @@ export const getUserCart = async (authToken) => {
     })
 }
 
-
 export const emptyUserCart = async (authToken) => {
     return await Axios.delete(`${process.env.REACT_APP_API}/user/cart`, {
         headers: {
@@ -26,7 +23,6 @@ export const emptyUserCart = async (authToken) => {
         }
     })
 }
-
 
 export const saveUserAddress = async (authToken, address) => {
     return await Axios.post(`${process.env.REACT_APP_API}/user/address`, { address }, {
@@ -44,5 +40,23 @@ export const applyCoupon = async (authToken, coupon) => {
                 authToken,
             }
         })
+}
+
+export const createOrder = async (stripeResponse, authToken) => {
+    return await Axios.post(`${process.env.REACT_APP_API}/user/order`,
+        { stripeResponse },
+        {
+            headers: {
+                authToken,
+            }
+        })
+}
+
+export const getUserOrders = async (authToken) => {
+    return await Axios.get(`${process.env.REACT_APP_API}/user/orders`, {
+        headers: {
+            authToken,
+        }
+    })
 }
 

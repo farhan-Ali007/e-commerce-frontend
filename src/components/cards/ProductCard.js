@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
-import { Card, Tooltip } from 'antd'
 import { EyeOutlined, ShoppingCartOutlined } from '@ant-design/icons'
-import laptop from '../../images/laptop.png'
+import { Card, Tooltip } from 'antd'
+import _ from 'lodash'
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { showAverage } from '../../functions/rating'
-import _ from 'lodash'
-import { useDispatch, useSelector } from 'react-redux'
+import laptop from '../../images/laptop.png'
 
 
 const { Meta } = Card;
@@ -79,20 +79,31 @@ const ProductCard = ({ product }) => {
                         <br />
                         View Product
                     </Link>,
-                    <Tooltip title={tooltip}>
-                        <a onClick={handleAddToCart}>
-                            <ShoppingCartOutlined
-                                className='text-danger'
-                            />
+                    <Tooltip title={product.quantity < 1 ? 'Out of Stock' : tooltip}>
+                        <button
+                            onClick={handleAddToCart}
+                            className={`btn ${product.quantity < 1 ? 'disabled' : 'text-danger'}`}
+                            disabled={product.quantity < 1}
+                            aria-label="Add to Cart"
+                            style={{
+                                border: 'none',
+                                background: 'none',
+                                padding: 0,
+                                cursor: 'pointer',
+                                textTransform: "capitalize",
+                                fontWeight: "inherit"
+                            }}
+                        >
+                            <ShoppingCartOutlined />
                             <br />
-                            Add to Cart
-                        </a>
+                            {product.quantity < 1 ? 'Out of Stock' : 'Add To Cart'}
+                        </button>
                     </Tooltip>
 
                 ]}>
 
                 <Meta
-                    title={`${title} - ${price}`}
+                    title={`${title} - $${price}`}
                     description={`${description && description.substring(0, 40)}... `}
                 />
 

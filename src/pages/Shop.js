@@ -262,6 +262,7 @@ const Shop = () => {
         (
             <>
                 <Radio
+                    key={b}
                     value={b}
                     name={b}
                     checked={b === brand}
@@ -299,6 +300,7 @@ const Shop = () => {
         (
             <>
                 <Radio
+                    key={c}
                     value={c}
                     name={c}
                     checked={c === color}
