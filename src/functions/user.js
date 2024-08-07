@@ -60,3 +60,32 @@ export const getUserOrders = async (authToken) => {
     })
 }
 
+export const getWishlist = async (authToken) => {
+    return await Axios.get(`${process.env.REACT_APP_API}/user/wishlist`, {
+        headers: {
+            authToken,
+        }
+    })
+}
+
+export const removeFromWishlist = async (productId, authToken) => {
+    return await Axios.put(`${process.env.REACT_APP_API}/user/wishlist/${productId}`,
+        {},
+        {
+            headers: {
+                authToken,
+            }
+        })
+}
+
+
+export const addToWishlist = async (productId, authToken) => {
+    return await Axios.post(`${process.env.REACT_APP_API}/user/wishlist`,
+        { productId },
+        {
+            headers: {
+                authToken,
+            }
+        })
+}
+

@@ -1,18 +1,13 @@
-import React, { useEffect, useState } from 'react'
-import UserNav from '../../components/nav/UserNav';
-import { getUserOrders } from '../../functions/user'
-import { useSelector, useDispatch } from 'react-redux'
-import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons'
+import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
+import {
+    PDFDownloadLink
+} from '@react-pdf/renderer';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import ShowPaymentInfo from '../../components/cards/ShowPaymentInfo';
-// import {
-//     Document,
-//     Text,
-//     View,
-//     Page,
-//     StyleSheet,
-//     PDFDownloadLink,
-//     PDFViewer
-// } from '@react-pdf/renderer'
+import UserNav from '../../components/nav/UserNav';
+import Invoice from '../../components/order/Invoice';
+import { getUserOrders } from '../../functions/user';
 
 
 const History = () => {
@@ -70,18 +65,13 @@ const History = () => {
         </table>
     );
 
-    // const showDownloadLink = (order) => {
-    //     return <PDFViewer>
-    //         <Document>
-    //             <Page size={"A4"}>
-    //                 <View>
-    //                     <Text>Section# 1</Text>
-    //                     <Text>Section# 2</Text>
-    //                 </View>
-    //             </Page>
-    //         </Document>
-    //     </PDFViewer>
-    // }
+    const showDownloadLink = (order) => {
+        return <PDFDownloadLink document={<Invoice order={order}/>}
+            fileName='invoice.pdf'
+            className='btn btn-sm btn-outline-primary'>
+            Download PDF
+        </PDFDownloadLink>
+    }
 
     const showEachOrder = () => {
         return orders.map((order, i) => {
@@ -90,7 +80,8 @@ const History = () => {
                 {showOrderInTable(order)}
                 <div className='row'>
                     <div className='col'>
-                       <p>PDF download </p>
+                        {/* <p>PDF download </p> */}
+                        {showDownloadLink(order)}
                     </div>
                 </div>
             </div>

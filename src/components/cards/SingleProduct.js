@@ -1,20 +1,24 @@
 import { HeartOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { Card, Tabs, Tooltip } from 'antd';
+import _ from 'lodash';
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import StarRating from 'react-star-ratings';
+import { toast } from 'react-toastify';
+import { showAverage } from '../../functions/rating';
+import { addToWishlist } from '../../functions/user';
 import Laptop from '../../images/laptop.png';
 import RatingModal from '../modal/RatingModal';
 import ProductListItem from './ProductListItem';
-import { showAverage } from '../../functions/rating'
-import { useDispatch, useSelector } from 'react-redux'
-import _ from 'lodash'
 
 const { TabPane } = Tabs;
 
-const SingleProduct = ({ product, onStarClick, star }) => {
+const SingleProduct = ({ product, onStarClick, star, }) => {
+
+  const history = useHistory()
 
   const { user, cart } = useSelector((state) => ({ ...state }))
   const dispatch = useDispatch()
@@ -65,6 +69,17 @@ const SingleProduct = ({ product, onStarClick, star }) => {
       payload: true,
     });
   };
+
+  const handleAddToWhishlist = (e) => {
+    e.preventDefault()
+    addToWishlist(product._id, user && user.token)
+      .then((res) => {
+        console.log("Added to wishlist", res.data)
+        toast.success("Added to wishlist.")
+        history.push("/user/wishlist")
+      })
+  }
+
   return (
     <>
       <div className='col-md-7'>
@@ -110,11 +125,11 @@ const SingleProduct = ({ product, onStarClick, star }) => {
               </a>
             </Tooltip>,
 
-            <Link to="/" style={{ textDecoration: "none" }}>
+            <a onClick={handleAddToWhishlist}>
               <HeartOutlined className='text-info' />
               <br />
               Add to Wishlist
-            </Link>,
+            </a>,
             <RatingModal>
               <StarRating
                 name={_id}
