@@ -1,21 +1,102 @@
-.slider img,
-.card-image {
-    height: 400px;
-    object-fit: cover;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+body {
+  font-family: "Inter", sans-serif;
 }
 
+.slider img,
+.card-image {
+  height: 400px;
+  object-fit: cover;
+}
+h4 {
+  font-weight: 700;
+  text-align: center;
+}
 
 .float-right {
-    float: right;
+  float: right;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+/* Optional: additional styling for padding */
+.p-1 {
+  padding: 0.5rem;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+  height: 100vh;
+}
+
+.loader {
+  --dim: 4rem;
+  width: var(--dim);
+  height: var(--dim);
+  position: relative;
+  animation: spin988 2s linear infinite;
+}
+
+.loader .circle {
+  --color: rgb(22, 119, 255);
+  --dim: 1.2rem;
+  width: var(--dim);
+  height: var(--dim);
+  background-color: var(--color);
+  border-radius: 50%;
+  position: absolute;
+}
+
+.loader .circle:nth-child(1) {
+  top: 0;
+  left: 0;
+}
+
+.loader .circle:nth-child(2) {
+  top: 0;
+  right: 0;
+}
+
+.loader .circle:nth-child(3) {
+  bottom: 0;
+  left: 0;
+}
+
+.loader .circle:nth-child(4) {
+  bottom: 0;
+  right: 0;
+}
+
+@keyframes spin988 {
+  0% {
+    transform: scale(1) rotate(0);
   }
-  
-  .clearfix::after {
-    content: "";
-    clear: both;
-    display: table;
+
+  20%,
+  25% {
+    transform: scale(1.3) rotate(90deg);
   }
-  
-  /* Optional: additional styling for padding */
-  .p-1 {
-    padding: 0.5rem;
+
+  45%,
+  50% {
+    transform: scale(1) rotate(180deg);
   }
+
+  70%,
+  75% {
+    transform: scale(1.3) rotate(270deg);
+  }
+
+  95%,
+  100% {
+    transform: scale(1) rotate(360deg);
+  }
+}

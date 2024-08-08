@@ -1,43 +1,41 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, lazy, Suspense } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-
-import Header from './components/nav/Header';
-import AdminRoute from './components/routes/AdminRoute';
-import UserRoute from './components/routes/UserRoute';
-import SideDrawer from './components/drawer/SideDrawer';
-import AdminDashboard from './pages/admin/AdminDashboard';
-import CategoryCreate from './pages/admin/category/CategoryCreate';
-import CategoryUpdate from './pages/admin/category/CategoryUpdate';
-import SubCreate from './pages/admin/sub/SubCreate';
-import SubUpdate from './pages/admin/sub/SubUpdate';
-import CreateCouponPage from './pages/admin/coupons/CreateCouponPage';
-import ForgotPassword from './pages/auth/ForgotPassword';
-import Login from './pages/auth/Login';
-import Register from './pages/auth/Register';
-import CompleteRegisteration from './pages/auth/RegisterComplete';
-import CategoryHome from './pages/category/CategoryHome';
-import Home from './pages/Home';
-import Shop from './pages/Shop';
-import Cart from './pages/Cart';
-import Payment from './pages/Payment';
-import Checkout from './pages/Checkout';
-import History from './pages/user/History';
-import Password from './pages/user/Password';
-import Wishlist from './pages/user/Wishlist';
-
-
 import { useDispatch } from 'react-redux';
 import { auth } from './firebase';
 import { currentUser } from './functions/auth';
-import AllProducts from './pages/admin/product/AllProducts';
-import ProductCreate from './pages/admin/product/ProductCreate';
-import ProductUpdate from './pages/admin/product/ProductUpdate';
-import Product from './pages/Product';
-import SubHome from './pages/sub/SubHome';
+import { Spin } from 'antd'
 
+
+const Header = lazy(() => import('./components/nav/Header'));
+const AdminRoute = lazy(() => import('./components/routes/AdminRoute'));
+const UserRoute = lazy(() => import('./components/routes/UserRoute'));
+const SideDrawer = lazy(() => import('./components/drawer/SideDrawer'));
+const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'));
+const CategoryCreate = lazy(() => import('./pages/admin/category/CategoryCreate'));
+const CategoryUpdate = lazy(() => import('./pages/admin/category/CategoryUpdate'));
+const SubCreate = lazy(() => import('./pages/admin/sub/SubCreate'));
+const SubUpdate = lazy(() => import('./pages/admin/sub/SubUpdate'));
+const CreateCouponPage = lazy(() => import('./pages/admin/coupons/CreateCouponPage'));
+const ForgotPassword = lazy(() => import('./pages/auth/ForgotPassword'));
+const Login = lazy(() => import('./pages/auth/Login'));
+const Register = lazy(() => import('./pages/auth/Register'));
+const CompleteRegisteration = lazy(() => import('./pages/auth/RegisterComplete'));
+const CategoryHome = lazy(() => import('./pages/category/CategoryHome'));
+const Home = lazy(() => import('./pages/Home'));
+const Shop = lazy(() => import('./pages/Shop'));
+const Cart = lazy(() => import('./pages/Cart'));
+const Payment = lazy(() => import('./pages/Payment'));
+const Checkout = lazy(() => import('./pages/Checkout'));
+const History = lazy(() => import('./pages/user/History'));
+const Password = lazy(() => import('./pages/user/Password'));
+const Wishlist = lazy(() => import('./pages/user/Wishlist'));
+const AllProducts = lazy(() => import('./pages/admin/product/AllProducts'));
+const ProductCreate = lazy(() => import('./pages/admin/product/ProductCreate'));
+const ProductUpdate = lazy(() => import('./pages/admin/product/ProductUpdate'));
+const Product = lazy(() => import('./pages/Product'));
+const SubHome = lazy(() => import('./pages/sub/SubHome'));
 
 
 const App = () => {
@@ -69,7 +67,20 @@ const App = () => {
   }, [dispatch]);
 
   return (
-    <>
+    <Suspense
+      fallback={
+        <div className="spinner-container">
+          <h1 style={{ color: "rgb(22, 119, 255)", fontWeight: "900" }}>Loading</h1>
+          <div class="loader">
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+          </div>
+
+        </div>
+      }
+    >
       <Header />
       <SideDrawer />
       <ToastContainer />
@@ -100,7 +111,7 @@ const App = () => {
         <Route exact path='/checkout' component={Checkout} />
 
       </Switch>
-    </>
+    </Suspense>
   );
 }
 

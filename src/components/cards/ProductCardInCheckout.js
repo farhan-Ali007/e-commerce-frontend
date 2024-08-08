@@ -21,7 +21,7 @@ const ProductCardInCheckout = ({ p }) => {
     const [errorShown, setErrorShown] = useState(false);
 
     const handleColorChange = (e) => {
-        console.log("Color Changed ==>", e.target.value);
+        // console.log("Color Changed ==>", e.target.value);
         let cart = [];
 
         if (typeof window !== "undefined") {

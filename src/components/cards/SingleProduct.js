@@ -125,11 +125,24 @@ const SingleProduct = ({ product, onStarClick, star, }) => {
               </a>
             </Tooltip>,
 
-            <a onClick={handleAddToWhishlist}>
-              <HeartOutlined className='text-info' />
-              <br />
-              Add to Wishlist
-            </a>,
+            user ? (
+              <span onClick={handleAddToWhishlist} style={{ cursor: 'pointer' }}>
+                <HeartOutlined className='text-info' />
+                <br />
+                Add to Wishlist
+              </span>
+            ) : (
+              <span
+                style={{
+                  cursor: 'not-allowed',
+                  opacity: 0.5,
+                }}
+              >
+                <HeartOutlined className='text-info' />
+                <br />
+                Add to Wishlist
+              </span>
+            ),
             <RatingModal>
               <StarRating
                 name={_id}

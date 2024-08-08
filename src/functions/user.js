@@ -89,3 +89,15 @@ export const addToWishlist = async (productId, authToken) => {
         })
 }
 
+export const createCashOrderForUser = async (authToken, COD, couponTrueOrFalse) => {
+    return await Axios.post(`${process.env.REACT_APP_API}/user/cash-order`,
+        { COD, couponApplied: couponTrueOrFalse },
+        {
+            headers: {
+                authToken,
+            }
+        })
+}
+
+
+

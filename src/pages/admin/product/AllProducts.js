@@ -57,7 +57,7 @@ const AllProducts = () => {
                         <h4 className='text-danger'>Loading</h4>
                     ) : (
                         <>
-                            <h4>All Products</h4>
+                            <h4 className='pt-2 pb-2'>All Products</h4>
                             <div>
                                 <div className='row'>
                                     {products.map((product) => (

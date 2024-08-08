@@ -486,7 +486,7 @@ const Shop = () => {
                         loading ? (
                             <h4 className='text-danger'>Loading...</h4>
                         ) : (
-                            <h4 className='text-danger text-center pt-2'>Products</h4>
+                            <h4 className='text-danger text-center pt-3'>Products</h4>
                         )
                     }
                     {products.length < 0 && <p>No product found</p>}

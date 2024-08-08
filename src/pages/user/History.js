@@ -20,7 +20,7 @@ const History = () => {
     const loadUserOrders = () => {
         getUserOrders(user.token)
             .then((res) => {
-                console.log("All Orders=====>", JSON.stringify(res.data, null, 4))
+                // console.log("All Orders=====>", JSON.stringify(res.data, null, 4))
                 setOrders(res.data)
             })
     }
@@ -66,7 +66,7 @@ const History = () => {
     );
 
     const showDownloadLink = (order) => {
-        return <PDFDownloadLink document={<Invoice order={order}/>}
+        return <PDFDownloadLink document={<Invoice order={order} />}
             fileName='invoice.pdf'
             className='btn btn-sm btn-outline-primary'>
             Download PDF
@@ -74,7 +74,7 @@ const History = () => {
     }
 
     const showEachOrder = () => {
-        return orders.map((order, i) => {
+        return orders.reverse().map((order, i) => {
             return <div key={i} className='m-5 p-3 card'>
                 <ShowPaymentInfo order={order} />
                 {showOrderInTable(order)}

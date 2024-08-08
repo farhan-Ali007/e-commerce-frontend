@@ -95,14 +95,13 @@ const SubCreate = () => {
                 <div className="col-md-2"><AdminNav /></div>
                 <div className='col'>
                     {
-                        loading ? <h4 className='text-danger'>Loading...</h4> : <h4>Create sub category</h4>
+                        loading ? <h4 className='text-danger'>Loading...</h4> : <h4 className='pt-2'>Create sub category</h4>
                     }
                     <br />
                     <div className='form-group'>
-                        <label>Parent category</label>
                         <select name='category' className="form-control"
                             onChange={(e) => setCategory(e.target.value)}>
-                            <option>Please select</option>
+                            <option>Please select a category</option>
                             {categories.length > 0 &&
                                 categories.map((c) => (
                                     <option key={c._id} value={c._id}>

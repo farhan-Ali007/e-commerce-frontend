@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { getUserCart, emptyUserCart, saveUserAddress, applyCoupon } from '../functions/user'
+import { getUserCart, emptyUserCart, saveUserAddress, applyCoupon, createCashOrderForUser } from '../functions/user'
 import { toast } from 'react-toastify'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
@@ -19,7 +19,8 @@ const Checkout = ({ history }) => {
     const [discountError, setDiscountError] = useState('')
 
     const dispatch = useDispatch();
-    const { user, } = useSelector((state) => ({ ...state }));
+    const { user, COD } = useSelector((state) => ({ ...state }));
+    const couponTrueOrFalse = useSelector((state) => state.coupon);
 
     useEffect(() => {
         if (user && user.token) {
@@ -77,8 +78,8 @@ const Checkout = ({ history }) => {
 
     const showAddress = () => {
         return <>
-            <ReactQuill theme="snow" value={address} onChange={setAddress} />
-            <button className='btn btn-primary mt-2' onClick={saveAddressToDb}>Save</button>
+            <ReactQuill theme="snow" value={address} onChange={setAddress} className='ml-2' />
+            <button className='btn btn-primary mt-2 ml-2' onClick={saveAddressToDb}>Save</button>
         </>
     }
     const showProductSummary = () =>
@@ -122,20 +123,67 @@ const Checkout = ({ history }) => {
         <>
             <input
                 type='text'
-                className='form-control'
+                className='form-control ml-2'
                 onChange={(e) => {
                     setCoupon(e.target.value)
                     setDiscountError('')
                 }}
                 value={coupon}
             />
-            <button onClick={applyDiscountCoupon} className='btn btn-primary mt-2'>Apply</button>
+            <button onClick={applyDiscountCoupon} className='btn btn-primary mt-2 ml-2'>Apply</button>
         </>
     )
+
+    const createCashOrder = () => {
+        createCashOrderForUser(user.token, COD, couponTrueOrFalse)
+            .then((res) => {
+                console.log("User cash on delivery order response------->", res);
+                // handle success: empty cart, redirect, etc.
+
+                if (res.data.ok) {
+                    //empty local storage
+                    if (typeof window !== "undefined") {
+                        localStorage.removeItem("cart")
+                    }
+
+                    //empty redux cart
+                    dispatch({
+                        type: "ADD_TO_CART",
+                        payload: []
+                    })
+                    //empty redux coupon
+                    dispatch({
+                        type: "COUPON_APPLIED",
+                        payload: false
+                    })
+                    //empty redux COD
+
+                    dispatch({
+                        type: "COD",
+                        payload: false
+                    })
+
+                    //empty cart from backend
+
+                    emptyUserCart(user.token)
+
+                    //redirect user to history page
+
+                    setTimeout(() => {
+                        history.push("/user/history")
+                    }, 1000)
+                }
+            })
+            .catch((err) => {
+                console.log("Error creating cash order: ", err);
+            });
+    };
+
+
     return (
         <div className='row'>
-            <div className='col-md-6'>
-                <h4>Delivery Address </h4>
+            <div className='col-md-6 '>
+                <h4 className='pt-3'>Delivery Address </h4>
                 <br />
                 <br />
                 {showAddress()}
@@ -146,7 +194,7 @@ const Checkout = ({ history }) => {
                 {discountError && <p className='bg-danger p-2'>{discountError}</p>}
             </div>
             <div className='col-md-6'>
-                <h4>Order Summary</h4>
+                <h4 className='pt-3'>Order Summary</h4>
                 <hr />
                 <p>{products.length} Products</p>
                 <hr />
@@ -161,12 +209,19 @@ const Checkout = ({ history }) => {
                 <hr />
                 <div className='row'>
                     <div className='col-md-6'>
-                        <button
+                        {COD ? (<button
                             className='btn btn-primary'
                             disabled={!addressSaved || !products.length}
-                            onClick={() => history.push("/payment")}>
+                            onClick={createCashOrder}>
                             Place Order
-                        </button>
+                        </button>) : (
+                            <button
+                                className='btn btn-primary '
+                                disabled={!addressSaved || !products.length}
+                                onClick={() => history.push("/payment")}>
+                                Place Order
+                            </button>
+                        )}
                     </div>
 
                     <div className='col-md-6'>

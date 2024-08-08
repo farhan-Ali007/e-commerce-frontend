@@ -45,8 +45,17 @@ const Orders = ({ orders, handleStatusChange }) => {
   return (
     <div>
       {orders && orders.map((order) => {
-        return <div key={order._id} className='row pb-5'>
-          <div className='btn  bg-light'>
+        return <div key={order._id} className='row pb-5 mr-2'>
+          <div
+            className='btn bg-light'
+            style={{
+              width: "100%",
+              padding: "10px",
+              maxWidth: "100%", // Ensures it doesn't exceed 100%
+              margin: "0 auto", // Centering
+              boxSizing: "border-box",
+            }}>
+
             <ShowPaymentInfo order={order} showStatus={false} />
             <div className='row'>
               <div className='col-md-4 pt-2 text-secondary'>Delivery Status</div>
@@ -58,6 +67,7 @@ const Orders = ({ orders, handleStatusChange }) => {
                   defaultValue={order.orderStatus}
                   name='Status'>
                   <option value={"Not Processed"}>Not Processed</option>
+                  <option value={"Cash On Delivery"}>Cash On Delivery</option>
                   <option value={"Processing"}>Processing</option>
                   <option value={"Dispatched"}>Dispatched</option>
                   <option value={"Canceled"}>Canceled</option>

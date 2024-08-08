@@ -13,7 +13,7 @@ const Wishlist = () => {
     const loadWishlist = () => {
         getWishlist(user.token)
             .then((res) => {
-                console.log("Wishlist------>", res.data)
+                // console.log("Wishlist------>", res.data)
                 setWishlist(res.data.wishlist)
             })
     }
@@ -26,7 +26,7 @@ const Wishlist = () => {
     const handleRemove = (productId) => {
         removeFromWishlist(productId, user.token)
             .then((res) => {
-                console.log("Removed wishlist---->", res.data)
+                // console.log("Removed wishlist---->", res.data)
                 loadWishlist()
             })
     }

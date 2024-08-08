@@ -52,7 +52,7 @@ const ForgotPassword = ({ history }) => {
 
     return (
         <div className='container col-md-6 offset-md-3 p-5'>
-            {loading ? <h4 className='text-danger'>Loading...</h4> : <h4 className=''>Forgot Password</h4>}
+            {loading ? <h4 className='text-danger'>Loading...</h4> : <h4 className='text-center pb-2 pt-2'>Forgot Password?</h4>}
             <form onSubmit={handleSubmit}>
                 <input
                     type='email'

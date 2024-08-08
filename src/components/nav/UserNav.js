@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const UserNav = () => {
     return (
         <nav>
-            <ul className='nav flex-column'>
+            <ul className='nav flex-column mt-4'>
                 <li className='nav-item'>
                     <Link className="nav-link" to="/user/history">History</Link>
                 </li>
